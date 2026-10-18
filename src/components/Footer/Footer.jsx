@@ -1,0 +1,200 @@
+import React from 'react';
+import {
+  Container,
+  Typography,
+  Box,
+  Link,
+} from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import { Link as ScrollLink } from 'react-scroll';
+import logo from "../../images/logo.png";
+import CookieModal from '../CookieModal/CookieModal';
+import { useState } from 'react';
+
+// --- Main Component ---
+const Footer = () => {
+  const [cookieOpen, setCookieOpen] = useState(false);
+  const navItems = [
+    { title: 'About us', href: '#why1xbet' },
+    { title: 'Working with us', href: '#working-with-us' },
+    { title: 'Solutions', href: '#solutions' },
+    { title: 'Contacts', href: '#agent-form-section' },
+    { title: 'Cookie Policy', href: '/cookie-policy' },
+  ];
+
+  return (
+    <Box
+      component="footer"
+      sx={{
+        maxWidth: '100vw',
+        fontFamily: 'sans-serif',
+        backgroundColor: '#102A4C', // Dark blue background from images
+        py: 4, // Padding top and bottom
+       px:3,
+        color: 'white',        
+      }}
+      
+    >
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', md: 'row' }, // Column on mobile, row on desktop
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap:1, // Spacing between items
+          }}
+        >
+          {/* --- 1. Logo --- */}
+          <Box sx={{ textAlign: { xs: 'center', md: 'left' } }}>
+            <Box component="img" src={logo} alt="1xBet" sx={{ height: 28, cursor: 'pointer' }} />
+          </Box>
+          {/* --- 4. SEO keyword links (internal anchors) --- */}
+          {/* Keyword links: keep them in DOM for SEO. Toggle visibility via SHOW_KEYWORD_LINKS. */}
+          {/* SEO keyword links - hidden by default. To enable, set SHOW_KEYWORD_LINKS=true below */}
+          {(() => {
+            const SHOW_KEYWORD_LINKS = false; // set true to display links visibly
+            if (!SHOW_KEYWORD_LINKS) return null;
+
+            const keywords = [
+              '1xbetAgent',
+              '1xbet e-wallet agent',
+              '1xbet agent Bangladesh',
+              '1xbet agent india',
+              '1xbet agent pakistan',
+              '1xbet agent nepal',
+              '1xbet agent saudi arab',
+              '1xbet officail agent',
+              '1xbet agent login',
+              '1xbet agent programme'
+            ];
+
+            return (
+              <Box sx={{ mt: 2, textAlign: 'center', width: '100%' }}>
+                <Typography variant="caption" display="block" sx={{ color: '#b0bec5', mb: 0.5 }}>
+                  Quick links:
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 1 }}>
+                  {keywords.map((k) => (
+                    <Box
+                      key={k}
+                      component="a"
+                      href="#agent-form-section"
+                      title={k}
+                      sx={{ color: '#b0bec5', textDecoration: 'none', fontSize: 12 }}
+                    >
+                      {k}
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+            );
+          })()}
+
+          {/* --- 2. Nav Links --- */}
+          <Box
+            component="nav"
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', sm: 'row' }, // Column on smallest screens, row on sm+
+              flexWrap: 'wrap', // Allow wrapping
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: { xs: 1.5, sm: 3 }, // Spacing between links
+            }}
+          >
+            {navItems.map((item) => {
+              // Handle cookie-policy modal first so it doesn't navigate away
+              if (item.href === '/cookie-policy') {
+                return (
+                  <Typography key={item.title} variant="body1" sx={{ color: 'white', fontWeight: 500, mx: 1, display: 'inline-block', cursor: 'pointer', '&:hover': { color: '#b0bec5' } }} onClick={() => setCookieOpen(true)}>
+                    {item.title}
+                  </Typography>
+                );
+              }
+
+              if (item.href && item.href.startsWith('/')) {
+                return (
+                  <Link
+                    key={item.title}
+                    component={RouterLink}
+                    to={item.href}
+                    variant="body1"
+                    sx={{
+                      color: 'white',
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      mx: 1,
+                      display: 'inline-block',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                        color: '#b0bec5',
+                      },
+                    }}
+                  >
+                    {item.title}
+                  </Link>
+                );
+              }
+
+              if (item.href === '/cookie-policy') {
+                return (
+                  <Typography key={item.title} variant="body1" sx={{ color: 'white', fontWeight: 500, mx: 1, display: 'inline-block', cursor: 'pointer', '&:hover': { color: '#b0bec5' } }} onClick={() => setCookieOpen(true)}>
+                    {item.title}
+                  </Typography>
+                );
+              }
+
+              if (item.href && item.href.startsWith('#')) {
+                return (
+                  <ScrollLink key={item.title} to={item.href.replace('#', '')} smooth={true} duration={500} offset={-70} style={{ cursor: 'pointer', textDecoration: 'none', color: 'white', margin: '0 8px' }}>
+                    <Typography variant="body1" sx={{ color: 'white', fontWeight: 500, mx: 1, display: 'inline-block', '&:hover': { color: '#b0bec5' } }}>{item.title}</Typography>
+                  </ScrollLink>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  variant="body1"
+                  sx={{
+                    color: 'white',
+                    textDecoration: 'none',
+                    fontWeight: '500',
+                    mx: 1,
+                    display: 'inline-block',
+                    '&:hover': {
+                      textDecoration: 'underline',
+                      color: '#b0bec5',
+                    },
+                  }}
+                >
+                  {item.title}
+                </Link>
+              );
+            })}
+          </Box>
+
+          {/* Cookie policy modal (opened by footer's Cookie Policy link) */}
+          <CookieModal open={cookieOpen} onClose={() => setCookieOpen(false)} />
+
+          {/* --- 3. Copyright Info --- */}
+          <Box sx={{ textAlign: { xs: 'center', md: 'right' } }}>
+            <Typography variant="caption" display="block" sx={{ color: '#b0bec5' }}>
+              Copyright © 2007-202X "1xBet". All rights reserved and protected by law.
+            </Typography>
+            <Typography variant="caption" display="block" sx={{ color: '#b0bec5', mt: 0.5 }}>
+              1xBet uses cookies to enhance your website experience.
+            </Typography>
+            <Typography variant="caption" display="block" sx={{ color: '#b0bec5', mt: 0.5 }}>
+              By continuing to use the website, you agree to the use of these cookies.
+            </Typography>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
+  );
+};
+
+export default Footer;

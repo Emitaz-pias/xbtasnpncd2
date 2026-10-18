@@ -1,14 +1,23 @@
-contact us for an E-Wallet# xsupport
+# XBTASNP NCD2
 
-## Deploy to Netlify
+React website for the XBTASNP NCD2 project.
 
-This project is configured for Netlify deployment:
+## Run locally
+
+```sh
+npm ci
+npm start
+```
+
+## Deploy to Netlify from GitHub
+
+This repository includes `netlify.toml` with the production settings:
 
 - Build command: `npm run build`
 - Publish directory: `build`
-- Single-page app routes are redirected to `index.html`, so routes such as
-  `/cookie-policy` also work when opened directly or refreshed.
+- Client-side routes are served through `index.html` for direct navigation
+  and refreshes.
 
-To deploy from GitHub, push this repository to GitHub, then create a new site
-in Netlify and select the repository. Netlify will read these settings from
-`netlify.toml` and build the site on each push.
+In Netlify, choose **Add new site → Import an existing project**, connect
+`Emitaz-pias/xbtasnpncd2`, and deploy the `main` branch. Netlify will build
+the site on each push to that branch.
